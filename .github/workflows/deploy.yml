@@ -96,13 +96,14 @@ jobs:
           cache: 'pnpm'
 
       - name: 📦 Install dependencies
-        run: pnpm install
+        run: pnpm install --prod
 
       - name: 🛠️ Build Project & Prepare Lambda Package
         run: |
           pnpm build
           mkdir lambda
           cp dist/src/index.js lambda/index.js
+          cp -r node_modules lambda/node_modules
           cd lambda && zip -r ../lambda.zip .
 
       - name: 🔐 Configure AWS Credentials
