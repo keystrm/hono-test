@@ -73,7 +73,7 @@ jobs:
 
       - name: 🛠️ Build
         run: pnpm build
-  deploy:
+    deploy:
     name: 🚀 Deploy to Lambda
     runs-on: ubuntu-latest
     needs: build
@@ -83,21 +83,27 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
 
-      - run: corepack enable
+      - name: ⚙️ Enable Corepack
+        run: corepack enable
 
-      - uses: actions/setup-node@v4
+      - name: 🟨 Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'pnpm'
 
-      - run: pnpm install
+      - name: 📦 Install dependencies
+        run: pnpm install
 
-      - name: 🛠️ Build and Zip
+      - name: 🛠️ Build Project & Prepare Lambda Package
         run: |
           pnpm build
-          cd dist && zip -r ../lambda.zip .
+          mkdir lambda
+          cp src/index.js lambda/index.js
+          cd lambda && zip -r ../lambda.zip .
 
       - name: 🔐 Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
