@@ -1,4 +1,4 @@
-name: CI - Lint, Test, and Build
+name: CI With S3 deployment
 
 on:
   push:
@@ -84,13 +84,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
+      - run: corepack enable
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'pnpm'
-
-      - run: corepack enable
 
       - run: pnpm install
 
