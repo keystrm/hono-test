@@ -102,7 +102,7 @@ jobs:
         run: |
           pnpm build
           mkdir lambda
-          cp src/index.js lambda/index.js
+          cp dist/src/index.js lambda/index.js
           cd lambda && zip -r ../lambda.zip .
 
       - name: 🔐 Configure AWS Credentials
